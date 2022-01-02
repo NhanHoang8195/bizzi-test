@@ -1,0 +1,14 @@
+@import "styles/variables";
+
+.bz-login-container {
+  form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    .bz-btn {
+      background-color: $science_blue;
+      color: white;
+    }
+  }
+}

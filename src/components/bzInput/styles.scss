@@ -1,7 +1,20 @@
+@import "styles/variables";
+
 .bz-input {
   width: 100%;
   border-radius: 4px;
+  max-width: 500px;
+  margin-bottom: 5px;
   input {
-    height: 40px;
+    height: $base-height;
+    min-width: 300px;
+    padding: 5px;
+    outline: none;
+    &:focus {
+      border: 1px solid $science_blue;
+    }
+  }
+  label {
+    width: 150px;
   }
 }

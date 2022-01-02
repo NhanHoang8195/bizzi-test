@@ -12,3 +12,8 @@ code {
   monospace;
 }
 @import '~bootstrap/scss/bootstrap.scss';
+@import "styles/variables";
+
+.base-color {
+  color: $science_blue !important;
+}

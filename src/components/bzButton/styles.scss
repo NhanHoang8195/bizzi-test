@@ -1,0 +1,10 @@
+@import "styles/variables";
+
+.bz-btn-wrapper {
+  height: $base-height;
+  .bz-btn {
+    height: 100%;
+    outline: none;
+  }
+}
+
