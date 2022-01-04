@@ -1,9 +1,8 @@
-@import "styles/variables";
+@import "src/styles/variables";
 
 .bz-input {
   width: 100%;
   border-radius: 4px;
-  max-width: 500px;
   margin-bottom: 5px;
   input {
     height: $base-height;
@@ -13,8 +12,6 @@
     &:focus {
       border: 1px solid $science_blue;
     }
-  }
-  label {
-    width: 150px;
+    width: 100%;
   }
 }

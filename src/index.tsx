@@ -6,11 +6,12 @@ import {BrowserRouter} from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import {
   ApolloClient,
-  InMemoryCache,
   ApolloProvider,
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import {LOCALSTORAGE_KEYS} from 'src/constants';
+import {cache} from 'src/operations/cached';
 
 const httpLink = createHttpLink({
   uri: 'https://graphqlzero.almansi.me/api',
@@ -18,7 +19,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem(LOCALSTORAGE_KEYS.TOKEN);
   // return the headers to the context so httpLink can read them
   return {
     headers: {
@@ -30,7 +31,7 @@ const authLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache,
 });
 
 
