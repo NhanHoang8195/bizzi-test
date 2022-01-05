@@ -1,5 +1,4 @@
 import React from "react";
-import {GoogleUserProfile} from 'src/models/googleUserProfile';
 import {initialUserProfile} from 'src/operations/cached';
 
 export const REGREX = {
@@ -10,4 +9,4 @@ export const LOCALSTORAGE_KEYS = {
   TOKEN: 'token',
 };
 
-export let AuthContext = React.createContext<GoogleUserProfile>(initialUserProfile);
+export let AuthContext = React.createContext<any>(initialUserProfile);

@@ -7,7 +7,7 @@ import {authenticationRequest} from 'src/mockApi';
 import { GoogleLogin } from 'react-google-login';
 import {LOCALSTORAGE_KEYS} from 'src/constants';
 import {mutations} from 'src/operations/mutations';
-import {Navigate, useLocation, useNavigate} from 'react-router-dom';
+import {Navigate, useLocation} from 'react-router-dom';
 import {GoogleUserProfile} from 'src/models/googleUserProfile';
 import {useAuth} from 'src/hooks/authHook';
 
@@ -28,7 +28,6 @@ function Login() {
     password: '',
     authenticate: '',
   });
-  const navigate = useNavigate();
   let location = useLocation();
   const userInfo = useAuth();
   const state = location.state as LocationState || {};
@@ -46,7 +45,6 @@ function Login() {
   function handleLoginSuccess(userInfo: GoogleUserProfile) {
     localStorage.setItem(LOCALSTORAGE_KEYS.TOKEN, userInfo.tokenId);
     mutations.updateGoogleUserInfo(userInfo);
-    navigate(state.from.pathname || "/dashboard", {replace: true});
   }
 
   function onHandleSubmit() {
@@ -89,7 +87,7 @@ function Login() {
   }
 
   if (userInfo.tokenId) {
-    return <Navigate to={"/dashboard"} replace={true} />
+    return <Navigate to={state?.from?.pathname || "/dashboard"} replace={true} />
   }
 
   return (<div className={"bz-login-container container"}>
@@ -98,7 +96,7 @@ function Login() {
       <BzInput label={"Email"} name={"email"} onChange={handleChangeInput} value={formInput.email} error={errors.email} required />
       <BzInput label={"Password"} name={"password"} onChange={handleChangeInput} value={formInput.password} error={errors.password} required type={"password"} />
       {errors.authenticate && <p className={"text-danger"}>{errors.authenticate}</p>}
-      <BzButton text={"Submit"} onClick={onHandleSubmit} disabled={isSubmiting} classes={{wrapper: "d-block text-end mt-1 mb-1"}} />
+      <BzButton content={"Submit"} onClick={onHandleSubmit} disabled={isSubmiting} classes={{wrapper: "d-block text-end mt-1 mb-1"}} />
       <div className={"text-end"}>
         <GoogleLogin
           clientId={`${process.env.REACT_APP_GOOGLE_AUTH}`}
