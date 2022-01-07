@@ -8,7 +8,7 @@ const Dashboard = React.lazy(() => import('src/containers/dashboard'));
 
 function Root() {
   return (
-      <div className={"bizzi-root-app"}>
+      <main className={"bizzi-root-app"}>
         <Suspense fallback={<div>LOADING...</div>}>
           <AuthProvider>
             <Routes>
@@ -19,7 +19,7 @@ function Root() {
             </Routes>
           </AuthProvider>
         </Suspense>
-      </div>
+      </main>
   );
 }
 

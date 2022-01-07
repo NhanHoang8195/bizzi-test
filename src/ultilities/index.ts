@@ -22,3 +22,22 @@ export const loginFormValidate = (data: any) => {
  *  true if object has at least key and existing truthy value.
  */
 export const isEmpty = (obj = {} as any) => !Object.keys(obj).some(key => !!obj[key]);
+
+/**
+ * Function to debounce callback.
+ * @param callback {function} the function need to be called after delay time
+ * @param delay {number} the number of miliseconds need to be set between callback call.
+ */
+export function debounce(callback: Function, delay: number): Function {
+  let timeoutId: NodeJS.Timeout;
+  return function() {
+    // @ts-ignore
+    const context = this;
+    const args = arguments;
+    const later = function() {
+      callback.apply(context, args);
+    };
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(later, delay);
+  };
+}

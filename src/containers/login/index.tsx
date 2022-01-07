@@ -43,7 +43,9 @@ function Login() {
   }
 
   function handleLoginSuccess(userInfo: GoogleUserProfile) {
-    localStorage.setItem(LOCALSTORAGE_KEYS.TOKEN, userInfo.tokenId);
+    if (userInfo.tokenId) {
+      localStorage.setItem(LOCALSTORAGE_KEYS.TOKEN, userInfo.tokenId);
+    }
     mutations.updateGoogleUserInfo(userInfo);
   }
 

@@ -5,5 +5,5 @@ export interface GoogleUserProfile {
   googleId: string,
   imageUrl: string,
   name: string,
-  tokenId: string,
+  tokenId: string | null,
 }

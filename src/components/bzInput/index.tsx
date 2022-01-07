@@ -10,6 +10,7 @@ type BzInputProps = {
   classes?: any,
   error?: string,
   type?: string,
+  rest?: object,
 };
 
 function BzInput(props: BzInputProps): JSX.Element {
@@ -22,10 +23,11 @@ function BzInput(props: BzInputProps): JSX.Element {
     value,
     error,
     type,
+    rest,
   } = props;
   return (<div className={`bz-input ${classes.wrapper}`}>
     <label htmlFor={name} className={"label"}>{label} {required && <span className={"text-danger"}>*</span>}</label>
-    <input id={name} className={`border ${error && 'border-danger'}`} name={name} value={value} onChange={onChange} type={type} />
+    <input id={name} className={`border ${error && 'border-danger'}`} name={name} value={value} onChange={onChange} type={type} {...rest} />
     {error && <p className={"text-danger"}>{error}</p>}
   </div>);
 }

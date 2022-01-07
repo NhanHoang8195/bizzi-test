@@ -1,6 +1,6 @@
-import {InMemoryCache, makeVar} from "@apollo/client";
+import {InMemoryCache, makeVar} from '@apollo/client';
 import {GoogleUserProfile} from 'src/models/googleUserProfile';
-import {LOCALSTORAGE_KEYS} from "../../constants";
+import {initialUserProfile} from 'src/constants';
 
 export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
@@ -8,25 +8,23 @@ export const cache: InMemoryCache = new InMemoryCache({
       fields: {
         user: {
           read () {
-            return {
-              ...googleUserInfoVar(),
-              tokenId: localStorage.getItem(LOCALSTORAGE_KEYS.TOKEN),
-            };
+            return googleUserInfoVar();
           }
         },
+        posts: {
+          keyArgs: false,
+          merge(exsiting, coming) {
+            return {
+              data: exsiting ? [...exsiting.data, ...coming.data]: [...coming.data],
+              meta: {
+                totalCount: coming.meta?.totalCount,
+              }
+            }
+          }
+        }
       }
     }
   }
 });
-
-export const initialUserProfile: GoogleUserProfile = {
-  email: "",
-  familyName: "",
-  givenName: "",
-  googleId: "",
-  imageUrl: "",
-  name: "",
-  tokenId: "",
-}
 
 export const googleUserInfoVar = makeVar<GoogleUserProfile>(initialUserProfile);
