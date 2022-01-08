@@ -11,10 +11,11 @@ type BzTableProps = {
   total?: number,
   currentPage?: number,
   loading?: boolean,
+  error?: any,
 };
 
 function BzTable(props: BzTableProps) {
-  const { columns, data, isInfiniteScrolling, fetchMore = () => {}, loading } = props;
+  const { columns, data, isInfiniteScrolling, fetchMore = () => {}, loading, error } = props;
   const {
     getTableProps,
     getTableBodyProps,
@@ -54,6 +55,9 @@ function BzTable(props: BzTableProps) {
       </tr>}
       {loading && <tr>
         <td colSpan={columns.length} className={"text-center"}>Loading...</td>
+      </tr>}
+      {error && <tr>
+        <td colSpan={columns.length} className={"text-center text-danger"}>Sorry, an error has occured!</td>
       </tr>}
       {isInfiniteScrolling && <tr>
         <td colSpan={columns.length}><BzButton classes={{btn: "w-100"}} content={"Load more"} onClick={fetchMore} /></td>

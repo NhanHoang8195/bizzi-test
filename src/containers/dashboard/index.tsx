@@ -8,16 +8,17 @@ import BzButton from 'src/components/bzButton';
 import {handleDeletePost, handleCreatePost} from 'src/operations/cached';
 import AddComponent from 'src/containers/dashboard/addComponent';
 import {Post} from 'src/models/googleUserProfile';
+import EditComponent from 'src/containers/dashboard/editComponent';
 
 const INITIAL_PAGE = 1;
-const LIMIT_POSTS = 100;
+const LIMIT_POSTS = 30;
 
 
 function Dashboard(): React.ReactElement {
   const [searchValue, setSearchValue] = useState('');
   const [searchPost, {data: searchedData, loading: isGettingPost}] = useLazyQuery(GET_POST);
   const [currentPage, setCurrentPage] = useState(INITIAL_PAGE);
-  const {data, fetchMore, loading: isGettingPosts} = useQuery(GET_POSTS, {
+  const {data, fetchMore, loading: isGettingPosts, error} = useQuery(GET_POSTS, {
     variables: {
       options: {
         paginate: {
@@ -29,41 +30,32 @@ function Dashboard(): React.ReactElement {
   });
   const [deletePost, {loading: isDeleting}] = useMutation(DELETE_POST);
   const [addPost, {loading: isAdding, data: postData, error: addPostError}] = useMutation(ADD_POST);
+  const [updatePost] = useMutation(UPDATE_POST);
   const dataTable = useMemo(() => {
     return searchValue ? searchedData?.post?.id ? [searchedData.post] : [] : data?.posts?.data || [];
   }, [data, searchedData]);
   const columns = useMemo(() => [
-      {
-        Header: 'ID',
-        accessor: 'id',
-      },
-      {
-        Header: 'Title',
-        accessor: 'title',
-      },
-      {
-        Header: 'Body',
-        accessor: 'body',
-      },
-      {
-        Header: 'Actions',
-        accessor: null,
-        Cell: ({row}: any) => <div>
-          <BzButton disabled={isDeleting} content={"Delete"} classes={{btn: "btn-danger m-1"}} onClick={() => {
-            deletePost({
-              variables: {
-                id: row.original.id,
-              },
-              update(cache) {
-                handleDeletePost(cache, row.original.id);
-              }
-            }).then(() => {
-
-            });
-          }} />
-        </div>,
-      },
-    ], [isDeleting]);
+    {
+      Header: 'ID',
+      accessor: 'id',
+    },
+    {
+      Header: 'Title',
+      accessor: 'title',
+    },
+    {
+      Header: 'Body',
+      accessor: 'body',
+      Cell: ({row}: any) => <EditComponent original={row.original} onSave={onUpdatePost} />
+    },
+    {
+      Header: 'Actions',
+      accessor: null,
+      Cell: ({row}: any) => <div>
+        <BzButton disabled={isDeleting} content={"Delete"} classes={{btn: "btn-danger m-1"}} onClick={() => onDeletePost(row.original.id)} />
+      </div>,
+    },
+  ], [isDeleting]);
   const searchPostDebounce = useMemo(() => debounce(searchPost, 500), []);
   function onSearch(e: React.ChangeEvent<HTMLInputElement>) {
     const newSearchValue = e.target.value;
@@ -103,6 +95,29 @@ function Dashboard(): React.ReactElement {
     }).then(() => {
     });
   }
+  function onDeletePost(id: string){
+    deletePost({
+      variables: {
+        id,
+      },
+      update(cache) {
+        handleDeletePost(cache, id);
+      }
+    }).then(() => {
+
+    });
+  }
+  function onUpdatePost(newPost: Post) {
+    updatePost({
+      variables: {
+        id: newPost.id,
+        input: {
+          title: newPost.title,
+          body: newPost.body,
+        },
+      }
+    }).then(() => {});
+  }
   return (<div className={"p-4"}>
     <SearchBar value={searchValue} name={"search"} label={""} onChange={onSearch} rest={{placeholder: "Search by ID"}} />
     <AddComponent errorMessage={addPostError} successMessage={postData} onSubmit={onAddPost} isSubmitting={isAdding} />
@@ -114,6 +129,7 @@ function Dashboard(): React.ReactElement {
       fetchMore={onFetchMore}
       currentPage={currentPage}
       loading={isGettingPosts || isGettingPost}
+      error={error}
     />
   </div>);
 }

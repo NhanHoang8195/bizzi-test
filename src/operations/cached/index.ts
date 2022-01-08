@@ -11,6 +11,17 @@ export const cache: InMemoryCache = new InMemoryCache({
             return googleUserInfoVar();
           }
         },
+        post: {
+          read(cached, {readField, args}) {
+            let posts: Posts = readField('posts') || {
+              data: [],
+              meta: {
+                totalCount: 0,
+              }
+            };
+            return posts.data.find((p: Post) => p.id === args?.id);
+          }
+        },
         posts: {
           keyArgs: false,
           merge(exsiting, coming, {args}) {
@@ -52,6 +63,25 @@ export function handleDeletePost(cache: ApolloCache<any>, id: string | number) {
 }
 
 export function handleCreatePost(cache: ApolloCache<any>, newPost: Post) {
+  cache.modify({
+    id: ROOT_QUERY,
+    fields: {
+      posts({data, meta}: Posts): Posts | null {
+        return {
+          data: [...data, newPost],
+          meta: {
+            totalCount: meta.totalCount + 1,
+          }
+        }
+      },
+      post(cached): Post | null {
+        return newPost;
+      }
+    }
+  });
+}
+
+export function handleUpdatePost(cache: ApolloCache<any>, newPost: Post) {
   cache.modify({
     id: ROOT_QUERY,
     fields: {
