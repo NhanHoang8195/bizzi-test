@@ -7,3 +7,16 @@ export interface GoogleUserProfile {
   name: string,
   tokenId: string | null,
 }
+
+
+export interface Post {
+  id: string,
+  title: string,
+  body: string,
+}
+export interface Posts {
+  data: Array<Post>,
+  meta: {
+    totalCount: number,
+  }
+}

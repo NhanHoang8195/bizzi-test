@@ -1,7 +1,7 @@
 .bz-table {
   width: 100%;
-  min-height: 800px;
   tr {
+    min-height: 41px;
     :last-child {
       .td {
         border-bottom: 0;

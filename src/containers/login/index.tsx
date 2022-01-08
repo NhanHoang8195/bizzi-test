@@ -98,7 +98,7 @@ function Login() {
       <BzInput label={"Email"} name={"email"} onChange={handleChangeInput} value={formInput.email} error={errors.email} required />
       <BzInput label={"Password"} name={"password"} onChange={handleChangeInput} value={formInput.password} error={errors.password} required type={"password"} />
       {errors.authenticate && <p className={"text-danger"}>{errors.authenticate}</p>}
-      <BzButton content={"Submit"} onClick={onHandleSubmit} disabled={isSubmiting} classes={{wrapper: "d-block text-end mt-1 mb-1"}} />
+      <BzButton content={"Submit"} onClick={onHandleSubmit} disabled={isSubmiting} classes={{wrapper: "d-block text-end mt-1 mb-1", btn: "base-btn"}} />
       <div className={"text-end"}>
         <GoogleLogin
           clientId={`${process.env.REACT_APP_GOOGLE_AUTH}`}

@@ -23,7 +23,7 @@ function Header(): React.ReactElement {
       </Link>
       <div className={"d-flex align-items-center"}>
         <h4 className={"mb-0 mr-1 p-1"}>{userInfo.name}</h4>
-        <BzButton content={<><img src={"/images/signout.svg"} alt={"signout"} />SIGN OUT</>} onClick={onLogout} classes={{btn: "border"}} />
+        <BzButton content={<><img src={"/images/signout.svg"} alt={"signout"} />SIGN OUT</>} onClick={onLogout} classes={{wrapper: "h-100", btn: "border"}} />
       </div>
     </div>
   </header>);

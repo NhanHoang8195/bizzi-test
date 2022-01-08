@@ -18,4 +18,6 @@ export const initialUserProfile: GoogleUserProfile = {
   tokenId: localStorage.getItem(LOCALSTORAGE_KEYS.TOKEN),
 }
 
+export const ROOT_QUERY = 'ROOT_QUERY';
+
 export const AuthContext = React.createContext<any>(initialUserProfile);

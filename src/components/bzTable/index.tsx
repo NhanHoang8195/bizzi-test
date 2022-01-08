@@ -10,10 +10,11 @@ type BzTableProps = {
   fetchMore?: () => void,
   total?: number,
   currentPage?: number,
+  loading?: boolean,
 };
 
 function BzTable(props: BzTableProps) {
-  const { columns, data, isInfiniteScrolling, fetchMore = () => {} } = props;
+  const { columns, data, isInfiniteScrolling, fetchMore = () => {}, loading } = props;
   const {
     getTableProps,
     getTableBodyProps,
@@ -48,8 +49,14 @@ function BzTable(props: BzTableProps) {
           </tr>
         )
       })}
+      {!loading && data.length === 0 &&  <tr>
+        <td colSpan={columns.length} className={"text-center"}>No results</td>
+      </tr>}
+      {loading && <tr>
+        <td colSpan={columns.length} className={"text-center"}>Loading...</td>
+      </tr>}
       {isInfiniteScrolling && <tr>
-        <td colSpan={3}><BzButton content={"Load more"} onClick={fetchMore} /></td>
+        <td colSpan={columns.length}><BzButton classes={{btn: "w-100"}} content={"Load more"} onClick={fetchMore} /></td>
       </tr>}
       </tbody>
     </table>
