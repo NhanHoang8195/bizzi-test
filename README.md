@@ -1,8 +1,8 @@
-# Getting Started with Create React App
+# Bizzi Test
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## 1. How Run Project
 
 In the project directory, you can run:
 
@@ -11,8 +11,49 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 2. Library dependencies
+1. Apollo Grapql
+2. React table
+3. Bootstrap
+4. Typescript
+5. Scss
+6. Using [GraphQLZero](https://graphqlzero.almansi.me/) for fake data
+
+## 3. Features
+1. Login/logout
+1. Listing posts
+2. Add new post
+3. Delete a post
+4. Update a post
+
+## 4. NOTE
+1. Login feature:  
+- If use email/password, there is a fake calling api (delay 1s)
+- Only email with `bizzi_test@bizzi.com` can login, password is free.
+- All information about user getting from **Google authenticate** will be store in `Reactive Variable`.
+- Token will be stored in `localStorage`
+
+2. For Add/Delete/Update post
+- Calling api but update directly on cache.
+
+## Structure folder
+**src/index.tsx**: entry point,  
+**src/root.tsx**: contains routes,  
+**src/containers**: contains views (there are `login` and `dashboard` view)  
+**src/components**: contains common components  
+**src/models**: contains interface, blusprint  
+**src/styles**: contains global styles  
+**src/mockApi**: contains fake api call  
+**src/constants**: contains constants  
+**src/ultilies**: contains common function
+**src/operations**: contains cached, mutations, queries relate to `Apollo`
+
+
+## Has not implemented
+1. Unit test
+2. Virtualized scroll for large data (because in this api only 100 records)
+
+
 
 ### `npm test`
 
